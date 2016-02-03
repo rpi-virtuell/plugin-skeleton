@@ -114,9 +114,11 @@ class RW_Demo_Plugin {
 
         // Add Filter & Actions
 
-        add_action( 'bp_activity_entry_meta',   array( 'RW_Sticky_Activity_Core', 'add_sticky_icon') );
-        add_action( 'wp_enqueue_scripts',       array( 'RW_Sticky_Activity_Core','enqueue_style' ) );
-        add_action('init',                      array( 'RW_Sticky_Activity_Core','register_script' ) );
+        //@TODO  Hier Filter und Actions einbinden.
+
+        //add_action( 'bp_activity_entry_meta',   array( 'RW_Sticky_Activity_Core', 'add_sticky_icon') );
+        //add_action( 'wp_enqueue_scripts',       array( 'RW_Sticky_Activity_Core','enqueue_style' ) );
+        //add_action('init',                      array( 'RW_Sticky_Activity_Core','register_script' ) );
 
         // @TODO Hookname
         do_action( 'rw_sticky_activity_init' );
@@ -231,7 +233,7 @@ if ( class_exists( 'RW_Demo_Plugin' ) ) { //@TODO Klassemmae
     require_once 'inc/RW_Demo_Plugin_Autoloader.php'; //@TODO Dateiname
     RW_Demo_Plugin_Autoloader::register();  //@TODO Klassenname
 
-    register_activation_hook( __FILE__, array( 'RW_Sticky_Activity_Installation', 'on_activate' ) ); //@TODO Klasse
-    register_uninstall_hook(  __FILE__,	array( 'RW_Sticky_Activity_Installation', 'on_uninstall' ) ); //@TODO Klasse
-    register_deactivation_hook( __FILE__, array( 'RW_Sticky_Activity_Installation', 'on_deactivation' ) ); //@TODO Klasse
+    register_activation_hook( __FILE__, array( 'RW_Demo_Plugin_Installation', 'on_activate' ) ); //@TODO Klasse
+    register_uninstall_hook(  __FILE__,	array( 'RW_Demo_Plugin_Installation', 'on_uninstall' ) ); //@TODO Klasse
+    register_deactivation_hook( __FILE__, array( 'RW_Demo_Plugin_Installation', 'on_deactivation' ) ); //@TODO Klasse
 }
