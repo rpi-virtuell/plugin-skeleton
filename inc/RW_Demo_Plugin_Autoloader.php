@@ -1,28 +1,28 @@
 <?php
 /**
- * @TODO Class RW_Demo_Plugin_Autoloader
+ * Class RW_Demo_Plugin_Autoloader
  *
  * Autoloader for the plugin
  *
- * @package   @TODO RW Demo Plugin
- * @author    @TODO Frank Staude
+ * @package   RW Demo Plugin
+ * @author    Demo Author
  * @license   GPL-2.0+
- * @link      @TODO  https://github.com/rpi-virtuell/plugin-skeleton
+ * @link      https://github.com/rpi-virtuell/rw-demo-plugin
  */
 
-class RW_Demo_Plugin_Autoloader { // @TODO Klassenname
+class RW_Demo_Plugin_Autoloader {
     /**
      * Registers autoloader function to spl_autoload
      *
      * @since   0.0.1
      * @access  public
      * @static
-     * @action  @TODO  rw_sticky_activity_autoload_register
+     * @action  rw_demo_plugin_autoload_register
      * @return  void
      */
     public static function register() {
-        spl_autoload_register( 'RW_Demo_Plugin_Autoloader::load' ); //@TODO  Klassenname
-        do_action( 'rw_demo_plugin_autoload_register' ); // @TODO  Hookname
+        spl_autoload_register( 'RW_Demo_Plugin_Autoloader::load' );
+        do_action( 'rw_demo_plugin_autoload_register' );
     }
 
     /**
@@ -31,12 +31,12 @@ class RW_Demo_Plugin_Autoloader { // @TODO Klassenname
      * @ince    0.0.1
      * @access  public
      * @static
-     * @action  @TODO rw_sticky_activity_autoload_unregister
+     * @action  rw_demo_plugin_autoload_unregister
      * @return  void
      */
     public static function unregister() {
-        spl_autoload_unregister( 'RW_Demo_Plugin_Autoloader::load' ); //@TODO  Klassenname
-        do_action( 'rw_demo_plugin_autoload_unregister' ); // @TODO Hookname
+        spl_autoload_unregister( 'RW_Demo_Plugin_Autoloader::load' );
+        do_action( 'rw_demo_plugin_autoload_unregister' );
     }
 
     /**

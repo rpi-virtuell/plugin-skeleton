@@ -1,26 +1,40 @@
 <?php
 /**
- * @TODO Name des Plugins
+ * @TODO Dateien umbennen in ./inc
+ * RW_Demo_Plugin_Autoloader  > RW_Your_Plugin_Name_Autoloader
+ * RW_Demo_Plugin_Installation  > RW_Your_Plugin_Name_Installation
+ * RW_Demo_Plugin_Core  > RW_Your_Plugin_Name_Core
  *
- * @package   @TODO RW Demo Plugin
- * @author    @TODO Frank Staude
+ * @TODO Suchen und ersetzen:
+ * search-replace  'RW Demo Plugin'     'RW Your Plugin Name'
+ * search-replace  'RW_Demo_Plugin'     'RW_Your_Plugin_Name'
+ * search-replace  'rw_demo_plugin'     'rw_your_plugin_name'
+ * search-replace  'rw-demo-plugin'     'rw-your-plugin-name'
+ * search-replace  'Demo Author'        'Your Name'
+ * search-replace  'http://author.de'   'Authors url'
+ *
+ */
+/**
+ *
+ * @package   RW Demo Plugin
+ * @author    Demo Author
  * @license   GPL-2.0+
- * @link      @TODO https://github.com/rpi-virtuell/pagetname
+ * @link      https://github.com/rpi-virtuell/rw-demo-plugin
  */
 
 /*
- * Plugin Name:       @TODO RW Demo Plugin
- * Plugin URI:        @TODO https://github.com/rpi-virtuell/plugin-skeleton
- * Description:       @TODO A plugin to sticky an buddxpress avtivity
+ * Plugin Name:       RW Demo Plugin
+ * Plugin URI:        https://github.com/rpi-virtuell/rw-demo-plugin
+ * Description:       @TODO Description
  * Version:           0.0.1
- * Author:            @TODO Frank Staude
- * Author URI:        @TODO https://staude.net
+ * Author:            Demo Author
+ * Author URI:        http://author.de
  * License:           GNU General Public License v2
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  * Domain Path:       /languages
- * Text Domain:       @TODO rw-sticky-activity
+ * Text Domain:       rw-demo-plugin
  * Network:           true
- * GitHub Plugin URI: @TODO https://github.com/rpi-virtuell/plugin-skeleton
+ * GitHub Plugin URI: https://github.com/rpi-virtuell/rw-demo-plugin
  * GitHub Branch:     master
  * Requires WP:       4.0
  * Requires PHP:      5.3
@@ -88,13 +102,29 @@ class RW_Demo_Plugin {
      */
     static public $plugin_version = '';
 
+
+    /**
+     * @var     array
+     * @since   0.0.2
+     * @access  public
+     */
+    static public $notice = array( 'label'=>'info' , 'message'=>'' );
+
+    /**
+     * @var     string
+     * @since   0.0.2
+     * @access  public
+     */
+    static public $plugin_dir = NULL;
+
+
     /**
      * Plugin constructor.
      *
      * @since   0.0.1
      * @access  public
      * @uses    plugin_basename
-     * @action  @TODO rw_sticky_activity_init
+     * @action  rw_demo_plugin_init
      */
     public function __construct () {
         // set the textdomain variable
@@ -109,19 +139,54 @@ class RW_Demo_Plugin {
         // The Plugins Version
         self::$plugin_version = $this->get_plugin_header( 'Version' );
 
+
+        // absolute path to plugins root
+        self::$plugin_dir = plugin_dir_path(__FILE__);
+
+        // url to plugins root
+        self::$plugin_url = plugins_url('/',__FILE__);
+
         // Load the textdomain
         $this->load_plugin_textdomain();
 
         // Add Filter & Actions
+        // - https://codex.wordpress.org/Plugin_API/Action_Reference
+        // - https://codex.wordpress.org/Plugin_API/Filter_Reference
+
 
         //@TODO  Hier Filter und Actions einbinden.
 
-        //add_action( 'bp_activity_entry_meta',   array( 'RW_Sticky_Activity_Core', 'add_sticky_icon') );
-        //add_action( 'wp_enqueue_scripts',       array( 'RW_Sticky_Activity_Core','enqueue_style' ) );
-        //add_action('init',                      array( 'RW_Sticky_Activity_Core','register_script' ) );
 
-        // @TODO Hookname
-        do_action( 'rw_sticky_activity_init' );
+        add_action('init',                      array( 'RW_Demo_Plugin_Core','init' ) );
+        do_action( 'rw_demo_plugin_init' );
+
+
+        //@TODO uncomment what you need
+
+        //enable and load css and js files
+        // add_action( 'wp_enqueue_scripts',       array( 'RW_Demo_Plugin_Core','enqueue_style' ) );
+        // add_action( 'wp_enqueue_scripts',       array( 'RW_Demo_Plugin_Core','enqueue_js' ) );
+        // do_action( 'rw_demo_plugin_enqueue' );
+
+        //enable ajax examples
+         //add_action( 'admin_enqueue_scripts',    array( 'RW_Demo_Plugin_Core','enqueue_js' ) );
+         //add_action( 'wp_ajax_rw_demo_plugin_core_ajaxresponse' ,array( 'RW_Demo_Plugin_Core','ajaxresponse' )  );
+
+        //enable an widget
+        //add_action('widgets_init',             array( 'RW_Demo_Plugin_Widget','init' ) );
+        //do_action( 'rw_demo_plugin_widget_init' );
+
+        //enable options setting in backend
+        //add_action('init',             array( 'RW_Demo_Plugin_Settings','init' ) ,99);
+        //do_action( 'rw_demo_plugin_settings_init' );
+
+        //enable custom template functions
+        //add_action( 'init',  array( 'RW_Demo_Plugin_Template','init' ) );
+        //do_action( 'rw_demo_plugin_template_init' );
+
+        //enable buddypress functions
+        //add_action( 'bp_include',      array( 'RW_Demo_Plugin_Buddypress','init' ) ,99);
+        //do_action( 'rw_demo_plugin_buddypress_init' );
     }
 
     /**
@@ -149,8 +214,7 @@ class RW_Demo_Plugin {
      * @return	void
      */
     public function load_plugin_textdomain() {
-        // @TODO Hookname
-        load_plugin_textdomain( self::get_textdomain(), false, apply_filters ( 'rw_sticky_activity_translationpath', dirname( plugin_basename( __FILE__ )) .  self::get_textdomain_path() ) );
+        load_plugin_textdomain( self::get_textdomain(), false, apply_filters ( 'rw_demo_plugin_domain', dirname( plugin_basename( __FILE__ )) .  self::get_textdomain_path() ) );
     }
 
     /**
@@ -222,18 +286,72 @@ class RW_Demo_Plugin {
         return $plugin_value;
     }
 
+
+    /**
+     * creates an admin notification on admin pages
+     *
+     * @since   0.0.2
+     * @uses     _notice_admin
+     * @access  public
+     * @param label         $value string,  default = 'info'
+     *        error, warning, success, info
+     * @param message       $value string
+     * @param $dismissible  $value bool,  default = false
+     *
+     */
+    public static function notice_admin($label=info, $message, $dismissible=false ) {
+        $notice = array(
+            'label'             =>  $label
+        ,   'message'           =>  $message
+        ,   'is-dismissible'    =>  (bool)$dismissible
+
+        );
+        self::_notice_admin($notice);
+    }
+
+    /**
+     * creates an admin notification on admin pages
+     *
+     * @since   0.0.2
+     * @uses     _notice_admin
+     * @access  private
+     * @param $value array
+     * @link https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
+     */
+
+    static function _notice_admin($notice) {
+
+        self::$notice = $notice;
+
+        add_action( 'admin_notices',function(){
+
+            $note = RW_Demo_Plugin::$notice;
+            $note['IsDismissible'] =
+                (isset($note['is-dismissible']) && $note['is-dismissible'] == true) ?
+                    ' is-dismissible':'';
+            ?>
+            <div class="notice notice-<?php echo $note['label']?><?php echo $note['IsDismissible']?>">
+                <p><?php echo __( $note['message'] ,RW_Demo_Plugin::get_textdomain() ); ?></p>
+            </div>
+            <?php
+        });
+
+    }
+
 }
 
 
-if ( class_exists( 'RW_Demo_Plugin' ) ) { //@TODO Klassemmae
+if ( class_exists( 'RW_Demo_Plugin' ) ) {
 
 
-    add_action( 'plugins_loaded', array( 'RW_Demo_Plugin', 'get_instance' ) ); //@TODO Klassenname
+    add_action( 'plugins_loaded', array( 'RW_Demo_Plugin', 'get_instance' ) );
 
-    require_once 'inc/RW_Demo_Plugin_Autoloader.php'; //@TODO Dateiname
-    RW_Demo_Plugin_Autoloader::register();  //@TODO Klassenname
+    require_once 'inc/RW_Demo_Plugin_Autoloader.php';
+    RW_Demo_Plugin_Autoloader::register();
 
-    register_activation_hook( __FILE__, array( 'RW_Demo_Plugin_Installation', 'on_activate' ) ); //@TODO Klasse
-    register_uninstall_hook(  __FILE__,	array( 'RW_Demo_Plugin_Installation', 'on_uninstall' ) ); //@TODO Klasse
-    register_deactivation_hook( __FILE__, array( 'RW_Demo_Plugin_Installation', 'on_deactivation' ) ); //@TODO Klasse
+    register_activation_hook( __FILE__, array( 'RW_Demo_Plugin_Installation', 'on_activate' ) );
+    register_uninstall_hook(  __FILE__,	array( 'RW_Demo_Plugin_Installation', 'on_uninstall' ) );
+    register_deactivation_hook( __FILE__, array( 'RW_Demo_Plugin_Installation', 'on_deactivation' ) );
 }
+
+include('setup.php');
