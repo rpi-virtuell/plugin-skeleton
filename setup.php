@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * displays a form for creating a new plugin
+ * after submitting, a new plugin will be created in the plugins dir.
+ * aftee successfull creation the RW Demo Plugin Skeleton will be disabled.
+ */
+ 
 if ( class_exists( 'RW_Demo_Plugin' ) ) {
 
     function recurse_copy($src,$dst) {
