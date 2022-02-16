@@ -1,1 +1,0 @@
-#hier werden ergänzende oder überschreibende theme files abgelegt  
